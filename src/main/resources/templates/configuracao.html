@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<meta charset="UTF-8">
+<head th:replace="fragmentos/head :: header ">
+<body class="hold-transition">
+
+	<div class="wrapper">
+		<div th:replace="fragmentos/navbar :: navbar"></div>
+
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6"></div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="card col-md-5">
+						<div class="card-header">
+							<h3 class="card-title">Configuração</h3>
+							
+						</div>
+						<!-- /.card-header -->
+						<div class="card-body">
+							
+							<table class="table table-bordered table-striped" sec:authorize="hasRole('ROLE_ADMIN')">
+								<thead>
+									<tr>
+										<th>Nome</th>
+										<th>Valor R$</th>				
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:id="${l.id}" th:each="l : ${lista}">
+										<td style="width: 150px;"><span th:text="${l.nome}" ></span></td>
+										<td style="width: 100px;">
+											<input class="form-control money setValor" th:value="${l.valor}">
+											<input type='hidden' class="id" th:value="${l.id}">
+										</td>		
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- /.card-body -->
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+		</div>
+		<!-- /.content-wrapper -->
+		<footer th:replace="fragmentos/footer :: footer"></footer>
+		<script th:src="@{/dist/js/configuracao.js}"></script>
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+	</div>
+</body>
+</html>

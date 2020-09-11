@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<meta charset="UTF-8">
+
+<head th:replace="fragmentos/head :: header ">
+
+<body class="hold-transition sidebar-mini layout-fixed">
+	<div class="wrapper">
+		<div th:replace="fragmentos/navbar :: navbar"></div>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1 class="m-0 text-dark">Dashboard</h1>
+						</div>
+
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- /.content-header -->
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<!-- Small boxes (Stat box) -->
+					<div class="row">
+						<div class="col-lg-3 col-6">
+							<!-- small box -->
+							<div class="small-box bg-warning">
+								<div class="inner">
+									<h3 id="numVendas"></h3>
+									<p>Vendas na última semana</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-bag"></i>
+								</div>
+								<a href="/relatorio/listarVendas" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<!-- ./col -->
+						<div class="col-lg-3 col-6">
+							<!-- small box -->
+							<div class="small-box bg-warning">
+								<div class="inner">
+									<h3 id="numContas"></h3>
+									<p>Contas abertas</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-stats-bars"></i>
+								</div>
+								<a href="/conta/listar" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<!-- ./col -->
+						<div class="col-lg-3 col-6">
+							<!-- small box -->
+							<div class="small-box bg-warning">
+								<div class="inner">
+									<h3 id="numClientes"></h3>
+									<p>Clientes cadastrados</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-person-add"></i>
+								</div>
+								<a href="/cliente/listar" class="small-box-footer">Mais informações <i
+										class="fas fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<!-- ./col -->
+						<div class="col-lg-3 col-6">
+							<!-- small box -->
+							<div class="small-box bg-warning">
+								<div class="inner">
+									<h3 id="numPedidos"></h3>
+									<p>Pedidos feitos na última semana</p>
+								</div>
+								<div class="icon">
+									<i class="ion ion-pie-graph"></i>
+								</div>
+								<a href="/contasPagar/listar" class="small-box-footer">Mais informações <i
+										class="fas fa-arrow-circle-right"></i></a>
+							</div>
+						</div>
+						<!-- Donut Chart -->
+						<div class="col-lg-6 col-6">
+							<div class="card card-warning">
+								<div class="card-header">
+									<h3 class="card-title"><i class="far fa-chart-bar"></i> Produtos mais Vendidos</h3>
+									<div class="card-tools">
+										<button type="button" class="btn btn-tool" data-widget="collapse"><i
+												class="fas fa-minus"></i>
+										</button>
+										<button type="button" class="btn btn-tool" data-widget="remove"><i
+												class="fas fa-times"></i></button>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="chartjs-size-monitor">
+										<div class="chartjs-size-monitor-expand">
+											<div class=""></div>
+										</div>
+										<div class="chartjs-size-monitor-shrink">
+											<div class=""></div>
+										</div>
+									</div>
+
+									<canvas id="donutChart" style="height: 269px; display: block; width: 307px;"
+										width="307" height="280" class="chartjs-render-monitor"></canvas>
+
+								</div>
+								<!-- /.card-body -->
+							</div>
+						</div>
+						<!-- Line Chart -->
+						<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="col-lg-6 col-6">
+							<div class="card card-warning">
+								<div class="card-header">
+									<h3 class="card-title"><i class="far fa-chart-bar"></i> Contas à pagar</h3>
+									<div class="card-tools">
+										<button type="button" class="btn btn-tool" data-widget="collapse"><i
+												class="fas fa-minus"></i>
+										</button>
+										<button type="button" class="btn btn-tool" data-widget="remove"><i
+												class="fas fa-times"></i></button>
+									</div>
+								</div>
+								<div class="card-body" style="height: 18rem; overflow-y: auto;">
+									<table class="table table-bordered table-striped">
+										<thead>
+											<tr style="text-align: center;">
+												<th>Plano Contas</th>
+												<th>Valor</th>
+												<th>Data Vencimento</th>
+											</tr>
+										</thead>
+										<tbody id="tbodyContasaVencer"></tbody>
+									</table>
+								</div>
+								<span class="label-warning" style="text-align: center;">
+										<a href="/contasPagar/listar" class="small-box-footer pull-center" style="text-align: center;">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
+								</span>
+
+							</div>
+							<!-- /.card-body -->
+						</div>
+						<!-- Knob -->
+						<div class="col-lg-6">
+							<div class="card card-warning">
+								<div class="card-header">
+									<h3 class="card-title">
+										<i class="far fa-chart-bar"></i>
+										Produtos à Vencer
+									</h3>
+								</div>
+								<!-- /.card-header -->
+								<div class="card-body" style="height: 18rem; overflow-y: auto;">
+									<div class="row">
+										<!-- ./col -->
+										<table class="table table-bordered table-striped">
+											<thead>
+												<tr>
+													<th>Produto</th>
+													<th>Fornecedor</th>
+													<th>Validade</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr style="text-align: center;" th:each="l : ${listaProdutosVencendo}">
+													<td><span th:text="${l.nome}"></span></td>
+													<td><span th:text="${l.fornecedor.razaoSocial}"></span></td>
+													<td><span th:text="${#temporals.format(l.validade, 'dd/MM/yyyy')}"></span></td>
+											</tr>
+										</tbody>
+									</table>
+				                </div>
+				              </div>
+				                <span class="label-warning" style="text-align: center;">
+										<a href="/produto/listar" class="small-box-footer pull-center" style="text-align: center;">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
+								</span>
+				              <!-- /.card-body -->
+				            </div>
+			            </div>
+			            
+			            <div class="col-lg-6">
+				            <div class="card card-warning">
+				              <div class="card-header">
+				                <h3 class="card-title">
+				                  <i class="far fa-chart-bar"></i>
+				                 Aniversarientes do Mês
+				                </h3>
+				              </div>
+				              <!-- /.card-header -->
+				              <div class="card-body" style="height: 18rem; overflow-y: auto;">
+				                <div class="row">
+				                	<table class="table table-bordered table-striped">
+										<thead>
+											<tr style="text-align: center;">
+												<th>Cliente</th>
+												<th>Celular</th>
+												<th>Dia</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr style="text-align: center;" th:each="l : ${listaAniversarientes}">
+												<td><span th:text="${l.nome}"></span></td>
+												<td><span th:text="${l.celular}"></span></td>
+												<td><span th:text="${l.diaAniversario}"></span></td>
+											</tr>
+										</tbody>
+									</table>
+				                  <!-- ./col -->
+				                </div>
+				                <!-- /.row -->
+				              </div>
+				               <span class="label-warning" style="text-align: center;">
+										<a href="/cliente/listar" class="small-box-footer pull-center" style="text-align: center;">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
+								</span>
+				              <!-- /.card-body -->
+				            </div>
+			            </div>
+						<!-- ./col -->
+					</div>
+					<!-- /.row -->
+					<!-- Main row -->
+				</div>
+				<!-- /.card -->
+			</section>
+			<!-- right col -->
+		</div>
+		<!-- /.row (main row) -->
+	</div>
+	<!-- /.content-wrapper -->
+	<footer th:replace="fragmentos/footerIndex :: footerIndex"></footer>
+	
+
+	</body>
+</html>

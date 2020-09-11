@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+
+<head th:replace="fragmentos/head :: header ">
+
+<body class="hold-transition sidebar-mini">
+
+	<div class="wrapper">
+		<div th:replace="fragmentos/navbar :: navbar"></div>
+
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6"></div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+
+			<!-- Main content -->
+			<div class="col-md-12">
+				<section class="content">
+					<div class="container-fluid">
+						<div class="card">
+							<div class="card-header row">
+								<h3 class="card-title">Calendário</h3>
+							</div>
+							<!-- /.card-header -->
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div id="calendar" class="fc fc-unthemed fc-ltr"></div>
+									</div>
+									<br>
+									<div>
+										<a>Para adicionar uma nova reserva, clique no dia do mês correspondente</a>
+										<br>
+										<a>Também é possível alterar para a aba Semana ou Dia e selecionar data e
+											horário automaticamente</a>
+									</div>
+
+									<div id="eventoModal" data-backdrop="static" data-keyboard="false"
+										class="modal fade" role="dialog">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h4 class="modal-title">Novo</h4>
+													<button type="button" class="close"
+														data-dismiss="modal">&times;</button>
+												</div>
+												<div class="modal-body">
+													<form id="eventoForm" action="#"
+														th:action="@{/calendario/gravarEvento}" method="post">
+														<input type="hidden" id="idContato" th:field="*{evento.id}">
+														<div class="row">
+															<div class="col-sm-6">
+																<label>Nome</label>
+																<input id="nome" th:field="*{evento.nome}"
+																	required="required" class="form-control uppercase">
+
+															</div>
+															<div class="col-sm-6">
+																<label>Telefone</label>
+																<input id="telefone" th:field="*{evento.telefone}"
+																	required="required" class="form-control telefone">
+															</div>
+														</div>
+														<div class="row">
+
+														</div>
+														<div class="row">
+															<div class="col-sm-6">
+																<label>Data</label>
+																<input type="date" id="data" th:field="*{evento.data}"
+																	required="required" class="form-control">
+															</div>
+															<div class="col-sm-3">
+																<label>Hora Inicio</label>
+																<input type="time" id="horaInicial"
+																	th:field="*{evento.horaInicial}" required="required"
+																	class="form-control">
+															</div>
+															<div class="col-sm-3">
+																<label>Hora Fim</label>
+																<input type="time" id="horaFinal"
+																	th:field="*{evento.horaFinal}" required="required"
+																	class="form-control">
+															</div>
+														</div>
+
+														<div class="row">
+															<div class="col-sm-6">
+																<label>Valor R$</label>
+																<input type="text" th:field="*{evento.valor}"
+																	required="required" class="form-control money">
+															</div>
+														</div>
+														<br>
+														<div style="text-align: center" class="form-group">
+															<button type="submit" class="btn btn-primary btn-circle"
+																name="gravar">Salvar</button>
+															<button type="button" data-dismiss="modal"
+																class="btn btn-secondary btn-circle">Voltar</button>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /.card-body -->
+						</div>
+					</div>
+
+					<!-- /.container-fluid -->
+				</section>
+			</div>
+		</div>
+	</div>
+	<!-- /.content-wrapper -->
+	<footer th:replace="fragmentos/footer :: footer"></footer>
+	<script src="fullcalendar-4.1.0/packages/core/main.js"
+		th:src="@{/fullcalendar-4.1.0/packages/core/main.js}"></script>
+	<script src='fullcalendar-4.1.0/packages/packages/interaction/main.js'
+		th:src="@{/fullcalendar-4.1.0/packages/interaction/main.js}"></script>
+	<script src='fullcalendar-4.1.0/packages/packages/daygrid/main.js'
+		th:src="@{/fullcalendar-4.1.0/packages/daygrid/main.js}"></script>
+	<script src='fullcalendar-4.1.0/packages/packages/timegrid/main.js'
+		th:src="@{/fullcalendar-4.1.0/packages/timegrid/main.js}"></script>
+	<script src='fullcalendar-4.1.0/packages/packages/list/main.js'
+		th:src="@{/fullcalendar-4.1.0/packages/list/main.js}"></script>
+
+	<script src="fullcalendar-4.1.0/packages/core/locales-all.min.js"
+		th:src="@{/fullcalendar-4.1.0/packages/core/locales-all.min.js}"></script>
+
+
+	<script src="dist/js/bootstrap-datetimepicker.min.js" th:src="@{/js/bootstrap-datetimepicker.min.js}"></script>
+	<script src="dist/js/app.js" th:src="@{/js/app.js}"></script>
+	<script th:src="@{/dist/js/calendario.js}"></script>
+
+	<!-- Control Sidebar -->
+	<aside class="control-sidebar control-sidebar-dark">
+		<!-- Control sidebar content goes here -->
+	</aside>
+
+</body>
+
+</html>

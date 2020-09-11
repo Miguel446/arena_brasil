@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<meta charset="UTF-8">
+<head th:replace="fragmentos/head :: header ">
+<body class="hold-transition sidebar-mini sidebar-collapse">
+
+	<div class="wrapper">
+		<div th:replace="fragmentos/navbar :: navbar"></div>
+
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6"></div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			
+			<section class="content">
+				<div class="container-fluid">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Filtro</h3>
+						</div>
+						<!-- /.card-header -->
+						<div class="card-body">
+						<form action="#" th:action="@{/relatorio/consultar}" method="post">
+						<div class="row">
+						
+							 <div class="col-md-2">
+								<label>Data Inicial</label>
+								<input type="date" th:field="*{evento.dataInicial}" class="form-control" required="required" >
+							</div>
+							<div class="col-md-2">
+								<label>Data Final</label>
+								<input type="date" th:field="*{evento.dataFinal}" class="form-control" required="required" >
+							</div>
+							<div class="col-md-4">
+									<button style="margin-top: 33px;" type="submit" class="btn btn-primary">Consultar</button>
+							</div>	
+												
+						</div>
+						</form>
+						</div>
+						<!-- /.card-body -->
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Relatório</h3>
+							
+						</div>
+						<!-- /.card-header -->
+						<div class="card-body">
+							
+							<table id="tblEvento" class="table table-bordered table-striped" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+								<thead>
+									<tr>
+										<th>Nome</th>
+										<th>Telefone</th>
+										<th>Data</th>
+										<th>Hora Inicio</th>
+										<th>Hora Fim</th>
+										<th>Valor &nbsp; <span style="text-align: right;">(Total <span style="text-align: right;" th:text="${#numbers.formatCurrency(valorTotal)}"></span>)</span></th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:id="${l.id}" th:each="l : ${lista}">
+									<td><span th:text="${l.nome}"></span></td>
+									<td><span th:text="${l.telefone}"></span></td>
+									<td><span th:text="${#temporals.format(l.data, 'dd/MM/yyyy')}"></span></td>
+									<td><span th:text="${l.horaInicial}"></span></td>
+									<td><span th:text="${l.horaFinal}"></span></td>
+									<td><span th:text="${#numbers.formatCurrency(l.valor)}"></span></td>
+								</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="5" style="text-align: right;"><strong> Valor Total </strong></td>
+										<td colspan="2" style="text-align: left;"><input  id="valorTotal" style="border: 0px solid; background-color: transparent; color: #181407; font-weight: bold;" th:value="${#numbers.formatCurrency(valorTotal)}"></td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+						<!-- /.card-body -->
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+		</div>
+		<!-- /.content-wrapper -->
+		<footer th:replace="fragmentos/footer :: footer"></footer>
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+	</div>
+</body>
+</html>
